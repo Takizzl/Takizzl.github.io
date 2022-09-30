@@ -1,6 +1,152 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Operating System</title>
+    <url>/2022/09/30/Operating-System/</url>
+    <content><![CDATA[<p><strong><em>Time：2022 / 09/ 29</em></strong></p>
+<p><strong><em>Author：QHL-taki</em></strong></p>
+<p><strong><em>content：Operating System learning</em></strong></p>
+<p>[TOC]</p>
+<h1 id="A-chapter01"><a href="#A-chapter01" class="headerlink" title="A. chapter01"></a>A. chapter01</h1><h2 id="Evolution-of-the-operating-system——操作系统的演变"><a href="#Evolution-of-the-operating-system——操作系统的演变" class="headerlink" title="Evolution of the operating system——操作系统的演变"></a>Evolution of the operating system——操作系统的演变</h2><h3 id="1-Serial-processing——串行处理"><a href="#1-Serial-processing——串行处理" class="headerlink" title="1. Serial processing——串行处理"></a>1. Serial processing——串行处理</h3><p>人工通过按钮卡带串行输入，无操作系统</p>
+<p>缺点：</p>
+<ul>
+<li><p>机器程序启动（安装，编译器、源程序、保存、加载和链接过程是串行的）速度慢</p>
+</li>
+<li><p>人执行任务时<strong>独占全机</strong>，导致资源浪费和耗时</p>
+</li>
+</ul>
+<h3 id="2-Simple-Batch-Systems——简单（单道）批处理系统"><a href="#2-Simple-Batch-Systems——简单（单道）批处理系统" class="headerlink" title="2. Simple Batch Systems——简单（单道）批处理系统"></a>2. Simple Batch Systems——简单（单道）批处理系统</h3><h4 id="2-1-执行流程："><a href="#2-1-执行流程：" class="headerlink" title="2.1 执行流程："></a><strong>2.1 执行流程：</strong></h4><ul>
+<li>a.   有一批作业在外存中等待排队——<strong>批处理</strong></li>
+<li>b.   <strong>一次只调度一个作业</strong>进入内存进行处理——<strong>单道处理</strong></li>
+</ul>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/518/image-20220929150638949.png" alt="image-20220929150638949" style="zoom: 33%;" /></p>
+<ul>
+<li><p>c.   通常来说，由常驻(residental)内存的Monitor来调度作业（调度过程有<strong>顺序调度</strong>或者<strong>按调度算法来选择调度作业的顺序</strong>），（此时只有Monitor和Ji占用内存）</p>
+</li>
+<li><p>d.   <strong>Ji</strong>执行完毕后，告知Monitor，清理内存资源后，再调度下一个作业</p>
+</li>
+</ul>
+<p>​     从始至终，<strong>都只有一个作业Ji在内存中运行</strong></p>
+<h4 id="2-2-Uniprogramming——单道程序设计："><a href="#2-2-Uniprogramming——单道程序设计：" class="headerlink" title="2.2 Uniprogramming——单道程序设计："></a>2.2 <strong>Uniprogramming——单道程序设计：</strong></h4><p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/518/image-20220929151447508.png" alt="image-20220929151447508" style="zoom: 50%;" /></p>
+<p>在monitor调度作业后，由其两者占用内存资源，但如果<strong>作业中存在I/0，通信等等待事件</strong>的话，<strong>处理器</strong>会长期<strong>处于等待过程</strong>，导致资源极大程度的浪费，因此<strong>处理器效率低</strong>—&gt;多道系统</p>
+<h3 id="3-Multiprogramming——多道程序设计："><a href="#3-Multiprogramming——多道程序设计：" class="headerlink" title="3. Multiprogramming——多道程序设计："></a>3. <strong>Multiprogramming——多道程序设计：</strong></h3><p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/518/image-20220929154708807.png" alt="image-20220929154708807" style="zoom:50%;" /></p>
+<h4 id="3-1-执行流程："><a href="#3-1-执行流程：" class="headerlink" title="3.1 执行流程："></a><strong>3.1 执行流程：</strong></h4><ul>
+<li>因为CPU是串行执行作业，当A运行时，B等待；A处于I/O等事件时，切换B运行，A等待下一次调度</li>
+<li><strong>A和B在微观上是交替运行</strong>（CPU和I/O此时  并行执行），宏观上时间段内，<strong>AB是同时运行</strong></li>
+</ul>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/518/image-20220929161402358.png" alt="image-20220929161402358" style="zoom: 50%;" /></p>
+<p>​    当多个任务同时进行时，资源竞争严重，因此效率可能低，此时应考虑适合<strong>内存中同时处理的作业数</strong></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/518/image-20220929155832902.png" alt="image-20220929155832902" style="zoom:33%;" /></p>
+<p><strong>由单道——&gt;多道产生问题：</strong></p>
+<ul>
+<li>内存中增加作业，多个作业在内存中后，又存在<strong>内存分配</strong>、<strong>进程调度</strong>、<strong>安全性</strong>的问题</li>
+</ul>
+<p><strong>多道处理设计困难：</strong></p>
+<ul>
+<li><p>Improper synchronization——<strong>同步</strong></p>
+<p>进程与进程之间应该有执行的协调性，可能包括运行的顺序（在此之中可能有某种signal控制这种协调性）</p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/518/image-20220929165616159.png" alt="image-20220929165616159" style="zoom: 33%;" /></p>
+</li>
+<li><p>Failed mutual exclusion——<strong>互斥</strong></p>
+<p>多个进程读写互斥，不能同时读或写（防止脏数据产生）</p>
+</li>
+<li><p><strong>程序执行结果不确定</strong></p>
+<p>多个进程之间可能存在干扰，导致结果出错（但结果仅和输入有关，不和你系统环境有关）</p>
+</li>
+<li><p><strong>Deadlocks</strong>——死锁</p>
+<p>多个进程竞争资源导致死锁</p>
+</li>
+</ul>
+<h4 id="3-2-Time-Sharing——分时系统"><a href="#3-2-Time-Sharing——分时系统" class="headerlink" title="3.2 Time Sharing——分时系统"></a>3.2 Time Sharing——分时系统</h4><p>​         在多道批处理系统中，<strong>每一个任务提供了一个固定的时间切片</strong>，时间结束后，中断该任务，切换至其他的任务，适合交互式系统（能够得到及时系统反馈）</p>
+<p><strong>特点：</strong></p>
+<ul>
+<li>多个用户共享处理器</li>
+<li>多用户同时通过终端访问系统</li>
+</ul>
+<p>（用户在系统中排队，按<strong>分时的机制</strong>为用户提供服务）</p>
+<p><strong>缺点：</strong></p>
+<ul>
+<li>频繁中断导致额外的系统开销，反而降低了执行效率</li>
+<li>某些程序不允许中断（如打印机打印文件）</li>
+</ul>
+<h5 id="3-2-1-多道系统-VS-分时系统"><a href="#3-2-1-多道系统-VS-分时系统" class="headerlink" title="3.2.1 多道系统 VS 分时系统"></a>3.2.1 多道系统 VS 分时系统</h5><p><strong>Both comparison：</strong></p>
+<p><img src="https://xingqiu-tuchuang-1256524210.cos.ap-shanghai.myqcloud.com/518/image-20220929202706969.png" alt="image-20220929202706969" style="zoom:50%;" /></p>
+<h2 id="Modern-Operating-Systems——现代操作系统"><a href="#Modern-Operating-Systems——现代操作系统" class="headerlink" title="Modern Operating Systems——现代操作系统"></a>Modern Operating Systems——现代操作系统</h2><h3 id="1-现代OS的类型"><a href="#1-现代OS的类型" class="headerlink" title="1.  现代OS的类型"></a>1.  现代OS的类型</h3><p><strong>按硬件平台系统结构分类:</strong></p>
+<ul>
+<li><p>单机OS</p>
+</li>
+<li><p>并行0S</p>
+</li>
+<li><p>网络0S</p>
+</li>
+<li><p>分布式OS</p>
+</li>
+<li><p>单机OS——只管理一台机器</p>
+</li>
+<li><p>并行0S——硬件平台并行，多CPU</p>
+</li>
+<li><p>网络0S——在网络环境下，针对网络通信，网络资源分配，向网络计算机提供服务</p>
+</li>
+<li><p>分布式OS——在<strong>包含各个网络节点连接形成的分布式的网络</strong>下，由<strong>控制操作系统内核</strong>和<strong>控制管理机制</strong>的两个子集构成</p>
+</li>
+</ul>
+<p><strong>按照特征分类:</strong></p>
+<ul>
+<li><p>批处理系统——吞吐量大</p>
+</li>
+<li><p>分时系统——交互性好，适合作服务器</p>
+</li>
+<li><p>实时系统——信息实时处理（售票系统、实时控制系统、无人驾驶系统）</p>
+</li>
+</ul>
+<h3 id="2-现代OS的特征"><a href="#2-现代OS的特征" class="headerlink" title="2.  现代OS的特征"></a>2.  现代OS的特征</h3><h4 id="2-1-任务共行"><a href="#2-1-任务共行" class="headerlink" title="2.1 任务共行"></a>2.1 任务共行</h4><p><strong>宏观：</strong></p>
+<ul>
+<li><p>指<strong>系统中有多个任务同时运行</strong></p>
+<p>例如：在windows上同时打开了多个应用程序，多个程序可以“同时进行”</p>
+</li>
+</ul>
+<p><strong>微观</strong>（不同硬件资源）：</p>
+<ul>
+<li><p>指<strong>单处理机系统中的任务并发</strong>（多个任务在单个处理机上交替运行，是“虚拟的任务共行”）或</p>
+<p><strong>在多处理机系统中的任务并行</strong>（多个任务在多个处理机上同时运行）</p>
+</li>
+</ul>
+<h4 id="2-1-资源共享"><a href="#2-1-资源共享" class="headerlink" title="2.1 资源共享"></a>2.1 资源共享</h4><p><strong>宏观：</strong>多个任务可以同时使用系统中的软硬件资源</p>
+<p><strong>微观</strong>：多个任务可以<strong>交替互斥地</strong>使用系统中的某个资源（注：但在多磁头硬件中可以并行读写）</p>
+<h3 id="3-任务管理模型"><a href="#3-任务管理模型" class="headerlink" title="3. 任务管理模型"></a>3. 任务管理模型</h3><p>Task（任务）：计算机系统在某个资源集合上做的一次相对独立的<strong>计算过程</strong></p>
+<p>现代OS中，任务用<strong>线程和进程</strong>共同表示，传统OS只有进程</p>
+<p>现代OS中，任务管理模型用<strong>线程状态转换图</strong>表示，传统操作系统用进程状态转换图</p>
+<h3 id="4-资源管理模型"><a href="#4-资源管理模型" class="headerlink" title="4. 资源管理模型"></a>4. 资源管理模型</h3><p>Resource Definition（资源）：</p>
+<ul>
+<li>软件资源：程序+数据</li>
+<li>硬件资源：CPU、存储器、I/O等设备</li>
+</ul>
+<p>Resource Management</p>
+<ul>
+<li><p>系统用<strong>竞争模式</strong>管理软件资源，为共享同一资源的多个任务提供<strong>互斥机制</strong></p>
+</li>
+<li><p>对于硬件资源，系统采用<strong>分配模式</strong>加以管理，即：申请——分配——使用——释放——回收。</p>
+</li>
+</ul>
+<p>（及时分配，及时回收—&gt;保证高效且不出错）</p>
+]]></content>
+  </entry>
+  <entry>
+    <title>Hello World</title>
+    <url>/2022/08/09/hello-world/</url>
+    <content><![CDATA[<p><strong>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</strong></p>
+<span id="more"></span>    
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+]]></content>
+  </entry>
+  <entry>
     <title>Pytorch learning</title>
     <url>/2022/08/09/Taki%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E6%96%87%E7%AB%A0/</url>
     <content><![CDATA[<p><strong><em>Time：2022 / 7 / 21</em></strong></p>
@@ -38,20 +184,5 @@ Loss： \frac{\partial loss_{n}}{\partial \omega} =2 \cdot x_{n} \cdot\left(x_{n
         <tag>导航</tag>
         <tag>分享</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>Hello World</title>
-    <url>/2022/08/09/hello-world/</url>
-    <content><![CDATA[<p><strong>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</strong></p>
-<span id="more"></span>    
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-]]></content>
   </entry>
 </search>
